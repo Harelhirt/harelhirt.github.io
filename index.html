@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leharel | Future Builder</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg: #070b1a;
+  --card: #10172b;
+  --line: #253253;
+  --text: #f1f5ff;
+  --muted: #9ba9c9;
+  --blue: #58a6ff;
+  --purple: #a78bfa;
+  --cyan: #4de9e1;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: Inter, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background-image: linear-gradient(#17213a 1px, transparent 1px),
+    linear-gradient(90deg, #17213a 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black, transparent 80%);
+  opacity: .35;
+}
+body::after {
+  content: "";
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  top: -200px;
+  right: -150px;
+  background: #5540cc;
+  filter: blur(180px);
+  opacity: .16;
+  z-index: -1;
+}
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
+.container { max-width: 1120px; margin: auto; padding: 0 24px; }
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(7,11,26,.82);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid #19243c;
+}
+.nav-inner { height: 74px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.logo { font: 800 24px "Space Grotesk"; letter-spacing: -1px; }
+.logo span { color: var(--cyan); }
+.nav-links { display: flex; gap: 28px; font-size: 13px; color: var(--muted); }
+.nav-links a:hover { color: white; }
+.menu { display: none; background: none; border: 1px solid var(--line); color: white; padding: 8px 12px; border-radius: 8px; }
+.hero { padding: 100px 0 80px; position: relative; }
+.hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; align-items: center; gap: 55px; }
+.eyebrow { color: var(--cyan); font: 600 13px "Space Grotesk"; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+h1 { font: 700 clamp(42px, 6vw, 76px)/1.08 "Space Grotesk"; letter-spacing: -3px; margin-bottom: 24px; }
+.gradient { background: linear-gradient(100deg, #fff 15%, #9fc8ff 48%, #bba8ff 90%); color: transparent; background-clip: text; }
+.hero p { max-width: 530px; color: var(--muted); font-size: 17px; margin-bottom: 30px; }
+.buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 13px 21px; border-radius: 10px; font-size: 14px; font-weight: 600; border: 1px solid var(--line); transition: .2s; }
+.btn-primary { background: linear-gradient(100deg, #537fff, #9369ff); border: none; }
+.btn:hover { transform: translateY(-2px); filter: brightness(1.12); }
+.btn-outline { background: #0d1427; }
+.hero-art { min-height: 360px; position: relative; display: grid; place-items: center; }
+.orbit { width: 290px; height: 290px; border: 1px solid #35466d; border-radius: 50%; position: relative; animation: spin 28s linear infinite; }
+.orbit::before, .orbit::after { content: ""; position: absolute; inset: 35px; border: 1px dashed #334f83; border-radius: 50%; }
+.orbit::after { inset: 70px; border-style: solid; opacity: .5; }
+.orb-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 20px var(--cyan); position: absolute; top: 25px; left: 135px; }
+.robot { position: absolute; width: 190px; padding: 25px 18px; border: 1px solid #425c91; border-radius: 25px; background: linear-gradient(145deg, #192849, #0d1428); box-shadow: 0 0 70px #3f63c82b; text-align: center; animation: float 5s ease-in-out infinite; }
+.robot-face { height: 100px; border: 2px solid #577bb4; border-radius: 18px; display: grid; place-items: center; background: #0b1326; margin-bottom: 17px; }
+.eyes { display: flex; gap: 25px; }
+.eye { width: 15px; height: 24px; border-radius: 6px; background: var(--cyan); box-shadow: 0 0 15px #4de9e1aa; }
+.robot-name { font: 700 15px "Space Grotesk"; color: white; }
+.robot-sub { font-size: 10px; color: var(--muted); }
+.float-label { position: absolute; padding: 9px 13px; border: 1px solid #2e4064; background: #111b32ee; border-radius: 9px; font: 600 12px monospace; color: #b9caff; }
+.label1 { top: 35px; right: 0; }
+.label2 { bottom: 35px; left: 0; }
+.label3 { top: 45%; right: -25px; color: var(--cyan); }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes float { 50% { transform: translateY(-13px); } }
+section { padding: 85px 0; }
+.section-head { margin-bottom: 40px; }
+.section-head h2 { font: 700 38px "Space Grotesk"; letter-spacing: -1.5px; margin-bottom: 10px; }
+.section-head p { color: var(--muted); max-width: 560px; }
+.tag { display: inline-block; color: var(--cyan); font: 600 11px monospace; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+.skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+.skill-card { background: linear-gradient(145deg, #111a30, #0d1427); border: 1px solid var(--line); padding: 22px; border-radius: 15px; transition: .25s; }
+.skill-card:hover { transform: translateY(-5px); border-color: #536fa5; }
+.skill-icon { font-size: 26px; margin-bottom: 15px; }
+.skill-card h3 { font: 600 16px "Space Grotesk"; margin-bottom: 7px; }
+.skill-card p { color: var(--muted); font-size: 12px; margin-bottom: 16px; }
+.progress { height: 5px; border-radius: 5px; background: #222e49; overflow: hidden; }
+.progress span { display: block; height: 100%; background: linear-gradient(90deg, var(--blue), var(--purple)); border-radius: inherit; }
+.status { display: flex; justify-content: space-between; margin-top: 9px; font: 11px monospace; color: #8192b7; }
+.status b { color: var(--cyan); font-weight: 500; }
+.timeline { max-width: 800px; position: relative; margin: 10px auto; }
+.timeline::before { content: ""; position: absolute; left: 16px; top: 0; bottom: 0; width: 1px; background: linear-gradient(var(--blue), #303d60, transparent); }
+.step { position: relative; display: flex; gap: 28px; margin-bottom: 25px; }
+.step-dot { flex: 0 0 33px; height: 33px; border: 2px solid #3b5480; background: var(--bg); border-radius: 50%; display: grid; place-items: center; font-size: 12px; color: var(--cyan); z-index: 1; }
+.step-card { flex: 1; padding: 18px 21px; border: 1px solid var(--line); background: #10182b; border-radius: 12px; }
+.step-card h3 { font: 600 16px "Space Grotesk"; }
+.step-card p { font-size: 13px; color: var(--muted); }
+.step-card small { color: var(--cyan); font-size: 10px; font-family: monospace; }
+.projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.project { border: 1px solid var(--line); background: #10182b; border-radius: 16px; overflow: hidden; transition: .25s; }
+.project:hover { transform: translateY(-5px); border-color: #526fa8; }
+.project-visual { height: 175px; display: grid; place-items: center; font-size: 58px; background: radial-gradient(circle at center, #263b69, #0c1428 70%); position: relative; }
+.project-visual::after { content: ""; position: absolute; inset: 0; background-image: radial-gradient(#8caeff 1px, transparent 1px); background-size: 20px 20px; opacity: .13; }
+.project-body { padding: 22px; }
+.project-body h3 { font: 600 19px "Space Grotesk"; margin: 8px 0; }
+.project-body p { color: var(--muted); font-size: 13px; margin-bottom: 18px; }
+.project-label { font: 10px monospace; color: var(--cyan); border: 1px solid #24545e; border-radius: 5px; padding: 4px 7px; }
+.project-btn { background: transparent; color: var(--blue); border: none; font-size: 13px; font-weight: 600; }
+.try-box { border: 1px solid #32466f; background: linear-gradient(130deg, #121f3b, #11162c); padding: 36px; border-radius: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 35px; align-items: center; }
+.try-box h2 { font: 700 29px "Space Grotesk"; margin-bottom: 12px; }
+.try-box p { color: var(--muted); font-size: 14px; }
+.code { background: #070c19; border: 1px solid #273552; border-radius: 12px; overflow: hidden; font: 13px/2 monospace; }
+.code-head { padding: 10px 15px; border-bottom: 1px solid #273552; color: #7084ad; font-size: 11px; }
+.code pre { padding: 17px; overflow-x: auto; color: #b5c9f6; }
+.code .kw { color: #c4a4ff; }
+.code .str { color: #9ee6a9; }
+.output { padding: 14px 17px; border-top: 1px solid #273552; color: var(--cyan); min-height: 50px; white-space: pre-wrap; }
+.contact { text-align: center; padding: 90px 0 70px; }
+.contact h2 { font: 700 45px "Space Grotesk"; margin-bottom: 14px; }
+.contact p { color: var(--muted); max-width: 500px; margin: 0 auto 25px; }
+footer { border-top: 1px solid #19243c; padding: 28px 0; color: #7183a8; font-size: 12px; }
+.footer-inner { display: flex; justify-content: space-between; gap: 15px; flex-wrap: wrap; }
+.reveal { opacity: 0; transform: translateY(25px); transition: opacity .7s, transform .7s; }
+.reveal.show { opacity: 1; transform: translateY(0); }
+.modal { display: none; position: fixed; inset: 0; z-index: 50; background: #030611c9; backdrop-filter: blur(8px); place-items: center; padding: 20px; }
+.modal.open { display: grid; }
+.modal-box { max-width: 500px; width: 100%; background: #121d35; border: 1px solid #425c91; border-radius: 18px; padding: 30px; }
+.modal-box h2 { font: 700 25px "Space Grotesk"; margin-bottom: 12px; }
+.modal-box p { color: var(--muted); font-size: 14px; margin-bottom: 25px; }
+.close { float: right; border: 1px solid var(--line); background: transparent; color: white; border-radius: 7px; padding: 3px 10px; }
+@media(max-width:850px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 25px; }
+  .hero { padding-top: 65px; }
+  .hero-art { min-height: 300px; }
+  .skills-grid { grid-template-columns: repeat(2, 1fr); }
+  .projects { grid-template-columns: 1fr 1fr; }
+  .try-box { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .nav-links.open { display: flex; position: absolute; top: 74px; left: 0; right: 0; background: #0a1022; padding: 22px 24px; flex-direction: column; gap: 15px; border-bottom: 1px solid var(--line); }
+  .menu { display: block; }
+}
+@media(max-width:520px) {
+  h1 { letter-spacing: -2px; }
+  .skills-grid, .projects { grid-template-columns: 1fr; }
+  .section-head h2 { font-size: 30px; }
+  .hero-art { transform: scale(.85); margin: -25px 0; }
+  .try-box { padding: 25px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a class="logo" href="#home">LEHAREL<span>.</span></a>
+    <button class="menu" id="menu" aria-label="Open menu">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="#skills">Skills</a>
+      <a href="#journey">Journey</a>
+      <a href="#projects">Projects</a>
+      <a href="#python">Try Python</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+<section class="hero" id="home">
+  <div class="container hero-grid">
+    <div>
+      <div class="eyebrow">✦ Young creator · Future builder</div>
+      <h1>Hi, I'm <span class="gradient">Leharel.</span><br>I build, learn & invent.</h1>
+      <p>I'm 11 years old and learning how to turn ideas into code. My journey starts with Python and grows into robotics, 3D design, and creative animations.</p>
+      <div class="buttons">
+        <a href="#skills" class="btn btn-primary">Explore my skills ↗</a>
+        <a href="#projects" class="btn btn-outline">See my projects</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="orbit"><div class="orb-dot"></div></div>
+      <div class="robot">
+        <div class="robot-face"><div class="eyes"><div class="eye"></div><div class="eye"></div></div></div>
+        <div class="robot-name">LEHAREL_OS</div>
+        <div class="robot-sub">LEARNING MODE: ON</div>
+      </div>
+      <div class="float-label label1">&lt;python /&gt;</div>
+      <div class="float-label label2">⚡ robotics.exe</div>
+      <div class="float-label label3">01 // CREATE</div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="tag">// 01 — My toolkit</div>
+      <h2>Skills I'm building</h2>
+      <p>Every skill is a new level unlocked. Here's what I'm learning, one step at a time.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card reveal"><div class="skill-icon">🐍</div><h3>Python</h3><p>Learning the fundamentals of programming.</p><div class="progress"><span style="width:75%"></span></div><div class="status"><span>Fundamentals</span><b>Learning</b></div></div>
+      <div class="skill-card reveal"><div class="skill-icon">📦</div><h3>Data Types</h3><p>Working with strings, numbers, and booleans.</p><div class="progress"><span style="width:70%"></span></div><div class="status"><span>Python basics</span><b>Learning</b></div></div>
+      <div class="skill-card reveal"><div class="skill-icon">🧩</div><h3>Data Structures</h3><p>Exploring lists, dictionaries, and more.</p><div class="progress"><span style="width:60%"></span></div><div class="status"><span>Python basics</span><b>Learning</b></div></div>
+      <div class="skill-card reveal"><div class="skill-icon">🔀</div><h3>If / Else</h3><p>Making programs choose what to do.</p><div class="progress"><span style="width:80%"></span></div><div class="status"><span>Conditionals</span><b>Learning</b></div></div>
+      <div class="skill-card reveal"><div class="skill-icon">🔁</div><h3>For Loops</h3><p>Repeating actions with code.</p><div class="progress"><span style="width:75%"></span></div><div class="status"><span>Python basics</span><b>Learning</b></div></div>
+      <div class="skill-card reveal"><div class="skill-icon">🤖</div><h3>Robotics</h3><p>Preparing to learn robot fundamentals.</p><div class="progress"><span style="width:15%"></span></div><div class="status"><span>Next up</span><b>Coming soon</b></div></div>
+      <div class="skill-card reveal"><div class="skill-icon">🧱</div><h3>Tinkercad</h3><p>Getting ready to explore 3D designs.</p><div class="progress"><span style="width:10%"></span></div><div class="status"><span>Next up</span><b>Coming soon</b></div></div>
+      <div class="skill-card reveal"><div class="skill-icon">✨</div><h3>Animations</h3><p>Improving my creative animation skills.</p><div class="progress"><span style="width:45%"></span></div><div class="status"><span>Creative coding</span><b>Improving</b></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="journey">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="tag">// 02 — The learning path</div>
+      <h2>My journey so far</h2>
+      <p>From my first Python lines to future robots. There is always something new to discover.</p>
+    </div>
+    <div class="timeline">
+      <div class="step reveal"><div class="step-dot">✓</div><div class="step-card"><small>01 · PYTHON</small><h3>Python fundamentals</h3><p>Getting started with the building blocks of code.</p></div></div>
+      <div class="step reveal"><div class="step-dot">✓</div><div class="step-card"><small>02 · DATA</small><h3>Variables & data types</h3><p>Learning how programs store and use information.</p></div></div>
+      <div class="step reveal"><div class="step-dot">✓</div><div class="step-card"><small>03 · STRUCTURES</small><h3>Data structures</h3><p>Exploring ways to organize collections of data.</p></div></div>
+      <div class="step reveal"><div class="step-dot">✓</div><div class="step-card"><small>04 · LOGIC</small><h3>If / else conditions</h3><p>Making decisions inside Python programs.</p></div></div>
+      <div class="step reveal"><div class="step-dot">✓</div><div class="step-card"><small>05 · LOOPS</small><h3>For loops</h3><p>Learning how to repeat actions with code.</p></div></div>
+      <div class="step reveal"><div class="step-dot">→</div><div class="step-card"><small>06 · NEXT LEVEL</small><h3>Robotics fundamentals</h3><p>My next learning adventure: understanding robots.</p></div></div>
+      <div class="step reveal"><div class="step-dot">→</div><div class="step-card"><small>07 · DESIGN</small><h3>Tinkercad</h3><p>Exploring 3D modeling and creative designs.</p></div></div>
+      <div class="step reveal"><div class="step-dot">↗</div><div class="step-card"><small>08 · CREATIVITY</small><h3>Better animations</h3><p>Improving my animations and bringing ideas to life.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="tag">// 03 — The workshop</div>
+      <h2>Ideas in progress</h2>
+      <p>Projects I want to build as I continue learning.</p>
+    </div>
+    <div class="projects">
+      <div class="project reveal"><div class="project-visual">🐍</div><div class="project-body"><span class="project-label">PYTHON</span><h3>Python Experiments</h3><p>Small programs using variables, conditions, and loops.</p><button class="project-btn" data-project="python">Explore idea →</button></div></div>
+      <div class="project reveal"><div class="project-visual">🤖</div><div class="project-body"><span class="project-label">ROBOTICS</span><h3>Robot Lab</h3><p>Future experiments with robotics fundamentals and electronics.</p><button class="project-btn" data-project="robot">Explore idea →</button></div></div>
+      <div class="project reveal"><div class="project-visual">🧊</div><div class="project-body"><span class="project-label">3D DESIGN</span><h3>Tinkercad Studio</h3><p>Designing creative objects and learning 3D modeling.</p><button class="project-btn" data-project="tinker">Explore idea →</button></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="python">
+  <div class="container">
+    <div class="try-box reveal">
+      <div>
+        <div class="tag">// 04 — Interactive learning</div>
+        <h2>Try a tiny Python idea.</h2>
+        <p>Press the button to run a beginner-friendly example. This website simulates the output right here in your browser.</p>
+        <br><button class="btn btn-primary" id="runPython">▶ Run Python example</button>
+      </div>
+      <div class="code">
+        <div class="code-head">example.py</div>
+        <pre><span class="kw">name</span> = <span class="str">"Leharel"</span>
+<span class="kw">for</span> i <span class="kw">in</span> range(<span class="str">3</span>):
+    print(<span class="str">"Keep learning, "</span> + name)</pre>
+        <div class="output" id="output">Click Run to see the output...</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact">
+  <div class="container reveal">
+    <div class="tag">// 05 — Keep exploring</div>
+    <h2>Dream. Code. Create.</h2>
+    <p>This is Leharel's learning journey. Every project is a chance to learn something new.</p>
+    <a href="#home" class="btn btn-primary">Back to the beginning ↑</a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <span>© 2026 LEHAREL. Built with curiosity.</span>
+    <span>Python · Robotics · Creativity</span>
+  </div>
+</footer>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <button class="close" id="closeModal">✕</button>
+    <h2 id="modalTitle"></h2>
+    <p id="modalText"></p>
+    <button class="btn btn-primary" id="closeButton">Got it!</button>
+  </div>
+</div>
+
+<script>
+const menu = document.getElementById("menu");
+const navLinks = document.getElementById("navLinks");
+
+menu.addEventListener("click", () => {
+  navLinks.classList.toggle("open");
+});
+
+document.querySelectorAll(".nav-links a").forEach(link => {
+  link.addEventListener("click", () => navLinks.classList.remove("open"));
+});
+
+const revealItems = document.querySelectorAll(".reveal");
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("show");
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+revealItems.forEach(item => observer.observe(item));
+
+const examples = {
+  python: {
+    title: "Python Experiments",
+    text: "Try building a number guessing game, a simple calculator, or a program that uses if/else and for loops. Start small and improve it each time!"
+  },
+  robot: {
+    title: "Robot Lab",
+    text: "The next adventure is robotics fundamentals. Learn how sensors, motors, and simple robot programs work. Build safely with an adult's help."
+  },
+  tinker: {
+    title: "Tinkercad Studio",
+    text: "Create 3D objects using basic shapes. Start with a cube, add a cylinder, and combine them into your own design."
+  }
+};
+
+const modal = document.getElementById("modal");
+document.querySelectorAll("[data-project]").forEach(button => {
+  button.addEventListener("click", () => {
+    const project = examples[button.dataset.project];
+    document.getElementById("modalTitle").textContent = project.title;
+    document.getElementById("modalText").textContent = project.text;
+    modal.classList.add("open");
+  });
+});
+
+function closeModal() {
+  modal.classList.remove("open");
+}
+document.getElementById("closeModal").addEventListener("click", closeModal);
+document.getElementById("closeButton").addEventListener("click", closeModal);
+modal.addEventListener("click", e => {
+  if (e.target === modal) closeModal();
+});
+
+document.getElementById("runPython").addEventListener("click", () => {
+  const output = document.getElementById("output");
+  output.textContent = "Keep learning, Leharel!\n".repeat(3).trim();
+});
+</script>
+</body>
+</html>
